@@ -1,23 +1,51 @@
 import Sequelize from 'sequelize';
 import sequelize from '../util/database.js';
 
-export const test =  () => {
-	sequelize
-	.authenticate()
-	.then(() => {
-		console.log('Connection has been established successfully.');
-	})
-	.catch(err => {
-		console.error('Unable to connect to the database:', err);
-	});
-};
-
 // https://github.com/demopark/sequelize-docs-Zh-CN/blob/master/models-definition.md
-export const Repository = sequelize.define('repository', {
+export default  sequelize.define('repository', {
 		repoCode: {
 			type: Sequelize.STRING,
 			field: 'repo_code'
-
+		},
+		repoName: {
+			type: Sequelize.STRING,
+			field: 'repo_name'
+		},
+		repoType: {
+			type: Sequelize.INTEGER,
+			field: 'repo_type'
+		},
+		repoGit: {
+			type: Sequelize.STRING,
+			field: 'repo_git_url'
+		},
+		repoDesc: {
+			type: Sequelize.STRING,
+			field: 'repo_desc'
+		},
+		repoAuthor: {
+			type: Sequelize.STRING,
+			field: 'repo_author'
+		},
+		disabled: {
+			type: Sequelize.INTEGER,
+			field: 'disabled'
+		},
+		createUser: {
+			type: Sequelize.STRING,
+			field: 'created_by'
+		},
+		createTime: {
+			type: Sequelize.DATE,
+			field: 'created_time'
+		},
+		modifyUser: {
+			type: Sequelize.STRING,
+			field: 'modify_by'
+		},
+		modifyTime: {
+			type: Sequelize.DATE,
+			field: 'modify_time'
 		}
 	}, {
 	// 禁用修改表名; 默认情况下，sequelize将自动将所有传递的模型名称（define的第一个参数）转换为复数。 如果你不想这样，请设置以下内容
