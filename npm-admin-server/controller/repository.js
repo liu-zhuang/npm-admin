@@ -1,25 +1,20 @@
-import * as repositoryService from '../service/repositoryService.js';
+import {queryRepository} from '../service/repositoryService.js';
 
-class Repository {
-	constructor (code, name, type, git, desc, author) {
-		this.RepoCode = code;
-		this.RepoName = name;
-		this.RepoType = type;
-		this.RepoGit = git;
-		this.RepoDesc = desc;
-		this.RepoAuthor = author;
-	}
+import {controller} from '../decorator/router-decorator.js';
 
-	CreateRepo () {
-	}
 
-	static async QueryAllRepo () {
-		let temp = await repositoryService.queryRepository({
-			keyword: 't',
-			author: 'z'
+// @controller('/api/v0')
+class RepositoryController {
+
+	async QueryAllRepo (ctx, next) {
+		const {keyword, author} = ctx.request.body;
+		let temp = await queryRepository({
+			keyword,
+			author
 		});
-		return temp;
+		ctx.body = temp;
+		next();
 	}
 }
 
-export default Repository;
+export default RepositoryController;
