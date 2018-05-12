@@ -5,5 +5,7 @@
 			"browsers": ["> 1%", "last 2 versions"]
 		}
 	}]],
-	plugins: ["transform-es2015-modules-commonjs", "transform-decorators-legacy"]
+	"plugins": ["transform-es2015-modules-commonjs",
+				"transform-decorators-legacy",
+			    "transform-es2015-destructuring"]
 }

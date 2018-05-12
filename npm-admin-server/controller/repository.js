@@ -1,10 +1,10 @@
 import {queryRepository} from '../service/repositoryService.js';
 
-import {controller} from '../decorator/router-decorator.js';
+import {controller, get} from '../decorator/router-decorator.js';
 
-@controller('/api/v0')
+@controller('/api/v0/repo')
 export default class RepositoryController {
-
+	@get('/getall')
 	async QueryAllRepo (ctx, next) {
 		const {keyword, author} = ctx.request.body;
 		let temp = await queryRepository({

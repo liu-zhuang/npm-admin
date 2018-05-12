@@ -1,26 +1,16 @@
-import Router from 'koa-router';
+const { Route } = require('../decorator/router-decorator')
+const { resolve } = require('path')
 
-import Repo from '../controller/repository.js';
+// export const router = app => {
+//   const apiPath = resolve(__dirname, '../controller')
+//   const router = new Route(app, apiPath)
 
-const router = app => {
-	const router = new Router();
+//   router.init()
+// }
 
-	router.get('/getAll', async (ctx, next) => {
-		ctx.body = 'getall';
-		next();
-	});
+module.exports = app => {
+  const apiPath = resolve(__dirname, '../controller')
+  const router = new Route(app, apiPath)
 
-	router.get('/', async (ctx, next) => {
-		let temp = 'hello npm';
-		ctx.body = temp;
-		next();
-	});
-	console.log('aa', Repo);
-	 const repo = new Repo();
-	 router.get('/repo', repo.QueryAllRepo);
-
-	app.use(router.routes())
-	.use(router.allowedMethods());
+  router.init()
 }
-
-module.exports = router;

@@ -5,15 +5,12 @@ import R from 'ramda';
 
 const pathPrefix = Symbol('pathPrefix')
 
-export const controller = prefix => target=> {
-	target.prototype[pathPrefix] = prefix;
-};
-
 let routeMap = new Map();
 
-const normalizePath = path => path.startsWith('/') ? path : `${path}`;
+const _normalizePath = path => path.startsWith('/') ? path : `${path}`;
 
-const setRouter = method => path => (target, name, descriptor) => {
+const _setRouter = config => (target, name, descriptor) => {
+	const {path, method} = config;
 	routeMap.set({
 		target,
 		method,
@@ -21,10 +18,15 @@ const setRouter = method => path => (target, name, descriptor) => {
 	}, target[name]);
 };
 
+export const controller = prefix => target=> {
+	prefix = _normalizePath(prefix);
+	target.prototype[pathPrefix] = prefix;
+};
 
-export const get = setRouter('get');
-
-
+export const get = path => _setRouter({
+	method: 'get',
+	path: _normalizePath(path)
+});
 
 
 export class Route {
@@ -35,12 +37,16 @@ export class Route {
 	}
 
 	init ()  {
-		const {app, router, folder} = this;
+		glob.sync(path.resolve(this.folder, './**/*.js')).forEach(require);
 
-		glob.sync(path.resolve(folder, './**/*.js')).forEach(require);
+		for (let [config, controller] of routeMap) {
+			const prefixPath = config.target[pathPrefix];
+			const routerPath = prefixPath + config.path;
+			this.router[config.method](routerPath, controller);
+		}
 
-		R.forEach(() => {
-
-		})(routeMap);
+		this.app
+		.use(this.router.routes())
+		.use(this.router.allowedMethods());
 	}
-}
+};
