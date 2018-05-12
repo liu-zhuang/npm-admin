@@ -13,8 +13,7 @@ const _setRouter = config => (target, name, descriptor) => {
 	const {path, method} = config;
 	routeMap.set({
 		target,
-		method,
-		path
+		...config
 	}, target[name]);
 };
 

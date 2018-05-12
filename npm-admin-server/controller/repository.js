@@ -14,4 +14,16 @@ export default class RepositoryController {
 		ctx.body = temp;
 		next();
 	}
+
+	@get('/get/:id')
+	async GetRepo (ctx, next) {
+		let temp = {
+			id: ctx.params.id,
+			name: 'xxx',
+			detail: 'yyy'
+		}
+
+		ctx.body = temp;
+		next();
+	}
 }
